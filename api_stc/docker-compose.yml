@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:13-alpine
+    hostname: 'postgres'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Password123
+      POSTGRES_DB: stc
+    networks:
+      - sameh
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  app:
+    image: app:sameh
+    networks:
+      - sameh
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/stc
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Password123
+
+volumes:
+  postgres-data:
+
+networks:
+  sameh:
+    external: true

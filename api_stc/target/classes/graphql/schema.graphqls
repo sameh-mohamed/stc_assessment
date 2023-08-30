@@ -1,0 +1,33 @@
+## ROOT
+type Query {
+    itemByItemId(itemId: ID): Item
+  
+}
+
+## Item.graphqls
+type Item {
+    itemId: ID
+    itemName: String
+	documentType:DocumentType
+    groups: [Group] @relation
+	parent:item
+}
+
+
+## DocumentType:graphqls
+type:DocumentType{
+   documentTypeId:ID
+   documentTypeName: String  
+}
+
+
+## group:graphqls
+type:Group{
+   groupId:ID
+   groupName: String
+   groupDescription:String
+   groups:[Item] @relation
+      
+}
+
+
